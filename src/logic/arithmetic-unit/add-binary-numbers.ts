@@ -1,16 +1,14 @@
-import { fullAdder } from "..";
+import { fullAdder } from "../full-adder";
+
 import { normalizeBinaryLength } from "../../usecases";
-import { getLength } from "../../utils";
 
 export function addBinaryNumbers(binaryA: string, binaryB: string): string {
   const { binA, binB } = normalizeBinaryLength(binaryA, binaryB);
 
-  const binsLength = getLength(binA);
-
   let carry = '0';
   let result = '';
 
-  for (let i = binsLength - 1; i >= 0; i--) {
+  for (let i = binA.length - 1; i >= 0; i--) {
     const bitA = binA[i];
     const bitB = binB[i];
 
@@ -20,9 +18,6 @@ export function addBinaryNumbers(binaryA: string, binaryB: string): string {
     carry = carryOut;
   }
 
-  if (carry === '1') {
-    result = carry + result;
-  }
-
-  return result;
+  // Limitar o resultado a 32 bits
+  return result.slice(-32);
 }
